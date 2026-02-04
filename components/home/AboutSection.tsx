@@ -5,7 +5,8 @@ export default function AboutSection() {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        {/* Give text a bit more space than image on desktop */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-start">
           {/* LEFT */}
           <div>
             <h2 className="text-3xl font-extrabold tracking-tight text-blue-800">
@@ -42,13 +43,18 @@ export default function AboutSection() {
 
           {/* RIGHT */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative w-[320px] h-[280px] sm:w-[420px] sm:h-[360px] lg:w-[520px] lg:h-[440px]">
+            {/* Responsive sizing:
+                - mobile: smaller, centered
+                - tablet: grows a bit
+                - desktop: capped so it doesn't dominate */}
+            <div className="relative w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[420px] aspect-[4/3]">
               <Image
                 src="/images/about-illustration.png"
                 alt="Environmental illustration"
                 fill
                 className="object-contain"
                 priority={false}
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 380px, 300px"
               />
             </div>
           </div>
