@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import type { HomeSlide } from "@/lib/homeSlides";
 
 type Props = {
@@ -22,36 +23,39 @@ export default function HeroSlider({ slides }: Props) {
     });
   }
 
-  // Variants that create the "swipe up" feel
-  // - current slide exits upward
-  // - next slide enters from below
-  const variants = {
-    enter: (dir: number) => ({
+  // Typed variants (fixes TS error)
+  const variants: Variants = {
+    enter: {
       y: 80,
       opacity: 0,
       scale: 1.02,
-    }),
+    },
     center: {
       y: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+      transition: {
+        duration: 0.55,
+        ease: [0.42, 0, 0.58, 1],
+      },
     },
-    exit: (dir: number) => ({
+    exit: {
       y: -80,
       opacity: 0,
       scale: 1.02,
-      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-    }),
+      transition: {
+        duration: 0.45,
+        ease: [0.42, 0, 0.58, 1],
+      },
+    },
   };
 
   return (
     <section className="relative w-full">
       <div className="relative h-[520px] md:h-[640px] overflow-hidden">
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+        <AnimatePresence initial={false} mode="popLayout">
           <motion.div
             key={slide.id}
-            custom={direction}
             variants={variants}
             initial="enter"
             animate="center"
@@ -68,10 +72,10 @@ export default function HeroSlider({ slides }: Props) {
               }}
             />
 
-            {/* Dark overlay like the reference */}
+            {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/40" />
 
-            {/* Content (moves together with image because it's inside the animated container) */}
+            {/* Content */}
             <div className="relative z-10 mx-auto max-w-6xl h-full px-4">
               <div className="flex h-full items-center justify-center">
                 <div className="text-center">
